@@ -1,0 +1,16 @@
+# IDE
+.idea
+
+# Environment files with credentials
+**/.env*
+*.env
+.env.*
+
+# Kubernetes secrets (if generated locally)
+**/secrets/
+**/*-secret.yaml
+**/sealed-secret*.yaml
+
+# Sensitive config files
+**/*credentials*
+**/*creds*
