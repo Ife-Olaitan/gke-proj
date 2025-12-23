@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-ss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  serviceName: mongodb-svc
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb-container
+          image: mongo:8.0.0
+          ports:
+            - containerPort: 27017
+          resources:
+            requests:
+              memory: '2Gi'
+              cpu: '500m'
+            limits:
+              memory: '4Gi'
+              cpu: '1'
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: mongodb-root-creds
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: mongodb-root-creds
+            - name: DB_NAME
+              value: colordb
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: mongodb-colordb-creds
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: mongodb-colordb-creds
+          volumeMounts:
+            - name: mongodb-init-config
+              mountPath: /docker-entrypoint-initdb.d
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: topology.kubernetes.io/zone
+                    operator: In
+                    values:
+                      - europe-west2-a
+                      - europe-west2-b
+                      - europe-west2-c
+      volumes:
+        - name: mongodb-init-config
+          configMap:
+            name: mongodb-init-colordb
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: standard-rwo
+        resources:
+          requests:
+            storage: 10Gi

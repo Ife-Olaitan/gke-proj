@@ -3,6 +3,9 @@ kind: Kustomization
 
 namespace: dev
 
+resources:
+  - ../_network-policies
+
 generatorOptions:
   disableNameSuffixHash: true
 

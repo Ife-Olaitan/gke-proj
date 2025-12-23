@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: color-api
+  labels:
+    app: color-api
+spec:
+  replicas: 3

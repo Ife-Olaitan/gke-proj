@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: color-api
+  labels:
+    app: color-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: color-api-container
+          image: ifeolaitan/color-api:2.1.0

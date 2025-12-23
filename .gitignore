@@ -14,3 +14,7 @@
 # Sensitive config files
 **/*credentials*
 **/*creds*
+
+ DOCUMENTATION_INDEX.md
+ KUSTOMIZE_GUIDE.md
+ PROJECT_STRUCTURE_SUMMARY.md
