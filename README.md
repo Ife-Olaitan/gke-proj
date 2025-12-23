@@ -694,29 +694,6 @@ db.createUser({
 
 **Execution**: Script runs automatically when MongoDB pod starts (via ConfigMap mounted to `/docker-entrypoint-initdb.d`)
 
-## Additional Configuration Files
-
-### Root Configuration Files
-- `.gitignore`: Git ignore patterns
-
-### Application Source Structure
-```
-_color-api-app/
-├── src/
-│   ├── index.js           # Express app initialization
-│   ├── utils.js           # Utility functions
-│   ├── routes/
-│   │   ├── api.js         # /api/* endpoints
-│   │   ├── health.js      # /health endpoint
-│   │   └── root.js        # / endpoint
-│   └── db/
-│       └── color.js       # Mongoose models
-├── Dockerfile             # Multi-stage build (node:22-alpine3.20)
-├── package.json           # Dependencies and scripts
-└── package-lock.json      # Locked versions
-
-```
-
 ## Best Practices Implemented
 
 1. **Separation of Concerns**: Base and overlay separation for config reusability
@@ -771,14 +748,3 @@ docker pull ifeolaitan/color-api:2.0.1
 docker pull ifeolaitan/color-api:2.1.0
 docker pull mongo:8.0.0
 ```
-
-## Future Enhancements
-
-- Add ingress controller for advanced routing
-- Implement persistent volume backups
-- Add monitoring with Prometheus/Grafana
-- Configure autoscaling with HPA
-- Add cert-manager for TLS/HTTPS
-- Implement CI/CD pipeline integration
-- Add pod disruption budgets
-- Configure pod security policies/standards
